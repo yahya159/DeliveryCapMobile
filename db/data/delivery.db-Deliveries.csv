@@ -1,3 +1,6 @@
-ID,orderNo,customerName,customerPhone,deliveryAddress,status,driverEmail,latitude,longitude,note
-11111111-1111-1111-1111-111111111111,DEL-0001,Client A,+212600000001,Casablanca Morocco,ASSIGNED,driver1@company.com,,,
-22222222-2222-2222-2222-222222222222,DEL-0002,Client B,+212600000002,Rabat Morocco,CREATED,,,,
+ID;orderNo;customerName;customerPhone;deliveryAddress;status;driverEmail;note
+1001;ORD-1001;Sarah Johnson;+1-202-555-0143;742 Evergreen Terrace, Springfield, IL 62704;DELIVERED;driver.mike@example.com;Left at front door
+1002;ORD-1002;Ahmed Haytam;+212-661-234567;12 Rue Hassan II, Casablanca 20000;IN_TRANSIT;driver.youssef@example.com;Call on arrival
+1003;ORD-1003;Maria Garcia;+34-612-345-678;Calle Gran Via 28, Madrid 28013;CREATED;;Awaiting driver assignment
+1004;ORD-1004;Liam Smith;+44-7700-900123;221B Baker Street, London NW1 6XE;OUT_FOR_DELIVERY;driver.john@example.com;Fragile - handle with care
+1005;ORD-1005;Yuki Tanaka;+81-90-1234-5678;2-1-1 Shibuya, Tokyo 150-0002;DELIVERED;driver.kenji@example.com;Signed by neighbor
