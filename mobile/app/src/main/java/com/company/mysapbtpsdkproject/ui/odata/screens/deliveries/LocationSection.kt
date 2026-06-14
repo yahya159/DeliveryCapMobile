@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -20,6 +21,7 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -71,6 +73,7 @@ fun LocationSection(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val palette = rememberDeliveryPalette()
     var isCapturing by remember { mutableStateOf(false) }
     val hasLocation = latitude != null && longitude != null
 
@@ -123,21 +126,22 @@ fun LocationSection(
             .fillMaxWidth()
             .padding(vertical = 8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = palette.cardBg
         ),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(18.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     imageVector = Icons.Filled.LocationOn,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = DeliveryGreen
                 )
                 Spacer(Modifier.size(8.dp))
                 Text(
                     text = stringResource(id = R.string.location_section_title),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
+                    color = palette.textPrimary
                 )
             }
 
@@ -192,7 +196,7 @@ fun LocationSection(
                             longitude
                         ),
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = palette.textSecondary
                     )
 
                     Spacer(Modifier.height(12.dp))
@@ -203,7 +207,9 @@ fun LocationSection(
                             onClick = {
                                 LocationUtils.openInGoogleMaps(context, latitude, longitude)
                             },
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.outlinedButtonColors(contentColor = DeliveryGreen),
+                            border = BorderStroke(1.dp, DeliveryGreen.copy(alpha = 0.5f))
                         ) {
                             Icon(Icons.Filled.LocationOn, contentDescription = null)
                             Spacer(Modifier.size(6.dp))
@@ -213,7 +219,9 @@ fun LocationSection(
                             onClick = {
                                 LocationUtils.openInWaze(context, latitude, longitude)
                             },
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.outlinedButtonColors(contentColor = DeliveryGreen),
+                            border = BorderStroke(1.dp, DeliveryGreen.copy(alpha = 0.5f))
                         ) {
                             Icon(Icons.Filled.PlayArrow, contentDescription = null)
                             Spacer(Modifier.size(6.dp))
@@ -226,7 +234,9 @@ fun LocationSection(
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             OutlinedButton(
                                 onClick = { requestCapture() },
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(1f),
+                                colors = ButtonDefaults.outlinedButtonColors(contentColor = DeliveryGreen),
+                                border = BorderStroke(1.dp, DeliveryGreen.copy(alpha = 0.5f))
                             ) {
                                 Icon(Icons.Filled.Refresh, contentDescription = null)
                                 Spacer(Modifier.size(6.dp))
@@ -234,7 +244,14 @@ fun LocationSection(
                             }
                             OutlinedButton(
                                 onClick = onClear,
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(1f),
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    contentColor = androidx.compose.ui.graphics.Color(0xFFEF4444)
+                                ),
+                                border = BorderStroke(
+                                    1.dp,
+                                    androidx.compose.ui.graphics.Color(0xFFEF4444).copy(alpha = 0.5f)
+                                )
                             ) {
                                 Icon(Icons.Filled.Delete, contentDescription = null)
                                 Spacer(Modifier.size(6.dp))
@@ -247,7 +264,11 @@ fun LocationSection(
                 editable -> {
                     Button(
                         onClick = { requestCapture() },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = DeliveryGreen,
+                            contentColor = androidx.compose.ui.graphics.Color.White
+                        )
                     ) {
                         Icon(Icons.Filled.Add, contentDescription = null)
                         Spacer(Modifier.size(6.dp))
@@ -259,7 +280,7 @@ fun LocationSection(
                     Text(
                         text = stringResource(id = R.string.no_location_set),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = palette.textSecondary
                     )
                 }
             }

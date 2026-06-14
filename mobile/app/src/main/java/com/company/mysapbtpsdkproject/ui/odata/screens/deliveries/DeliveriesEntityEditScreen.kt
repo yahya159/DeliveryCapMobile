@@ -165,16 +165,10 @@ val DeliveriesEntityEditScreen: @Composable (
             item {
                 val statusIndex = fieldStates.indexOfFirst { it.property.name == "status" }
                 if (statusIndex >= 0) {
-                    val statusState = fieldStates[statusIndex]
-                    FioriSimpleTextField(
-                        value = statusState.value,
-                        onValueChange = { viewModel.updateFieldState(statusIndex, it) },
-                        content = FioriTextFieldContent(
-                            label = statusState.property.name,
-                            required = !statusState.property.isNullable,
-                            errorMessage = statusState.errorMessage
-                        ),
-                        isError = statusState.isError,
+                    StatusDropdown(
+                        value = fieldStates[statusIndex].value,
+                        onValueSelected = { viewModel.updateFieldState(statusIndex, it) },
+                        modifier = Modifier.padding(horizontal = 12.dp)
                     )
                 }
             }

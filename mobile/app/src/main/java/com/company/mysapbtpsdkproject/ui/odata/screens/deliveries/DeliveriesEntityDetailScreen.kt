@@ -1,24 +1,31 @@
 package com.company.mysapbtpsdkproject.ui.odata.screens.deliveries
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.company.mysapbtpsdkproject.R
 import com.company.mysapbtpsdkproject.ui.odata.*
 import com.company.mysapbtpsdkproject.ui.odata.screens.*
 import com.company.mysapbtpsdkproject.ui.odata.viewmodel.*
-import com.sap.cloud.mobile.fiori.compose.keyvaluecell.model.FioriKeyValueCellContent
-import com.sap.cloud.mobile.fiori.compose.keyvaluecell.ui.FioriKeyValueCell
 import com.sap.cloud.mobile.kotlin.odata.EntityValue
 import com.sap.cloud.mobile.kotlin.odata.Property
 import com.company.mysapbtpsdkproject.ui.odata.screens.OperationScreen
@@ -33,6 +40,7 @@ val DeliveriesEntityDetailScreen: @Composable (
 ) -> Unit = { _, navigateUp, odataViewModel, isExpandedScreen ->
     val viewModel = odataViewModel as EntityViewModel
     val uiState by viewModel.odataUIState.collectAsState()
+    val palette = rememberDeliveryPalette()
 
     val deleteConfirm = remember {
         mutableStateOf(false)
@@ -64,53 +72,60 @@ val DeliveriesEntityDetailScreen: @Composable (
     ) {
         val entity = uiState.masterEntity
         if (entity != null) {
+            fun value(p: Property): String = entity.getOptionalValue(p)?.toString() ?: ""
+            val name = value(Deliveries.customerName)
+            val status = entity.getOptionalValue(Deliveries.status)?.toString()
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .background(palette.screenBg)
                     .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
-                // Clean header: customer name + status, replacing the default object header.
                 Text(
-                    text = entity.getOptionalValue(Deliveries.customerName)?.toString() ?: "",
-                    style = MaterialTheme.typography.headlineSmall
+                    text = name.ifEmpty { "Delivery" },
+                    color = palette.textPrimary,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
                 )
-                val status = entity.getOptionalValue(Deliveries.status)?.toString()
-                if (!status.isNullOrEmpty()) {
-                    Spacer(Modifier.height(4.dp))
-                    Text(
-                        text = status,
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+
+                StatusTrackerCard(status, palette)
+
+                InfoCard("Customer", palette) {
+                    InfoRow("Name", name, palette, Icons.Filled.Person)
+                    InfoRow("Phone", value(Deliveries.customerPhone), palette, Icons.Filled.Phone)
                 }
 
-                Spacer(Modifier.height(12.dp))
+                InfoCard("Delivery", palette) {
+                    InfoRow("Address", value(Deliveries.deliveryAddress), palette, Icons.Filled.LocationOn)
+                    InfoRow("Order no.", value(Deliveries.orderNo), palette, Icons.Filled.ShoppingCart)
+                }
 
-                detailCell(Deliveries.orderNo.name, entity.getOptionalValue(Deliveries.orderNo)?.toString())
-                detailCell(Deliveries.customerPhone.name, entity.getOptionalValue(Deliveries.customerPhone)?.toString())
-                detailCell(Deliveries.deliveryAddress.name, entity.getOptionalValue(Deliveries.deliveryAddress)?.toString())
-                detailCell(Deliveries.driverEmail.name, entity.getOptionalValue(Deliveries.driverEmail)?.toString())
-                detailCell(Deliveries.note.name, entity.getOptionalValue(Deliveries.note)?.toString())
-                detailCell(Deliveries.id.name, entity.getOptionalValue(Deliveries.id)?.toString())
+                InfoCard("Assignment", palette) {
+                    InfoRow("Driver", value(Deliveries.driverEmail), palette, Icons.Filled.Email)
+                }
 
-                // Read-only location preview + open-in-external-app actions.
+                if (value(Deliveries.note).isNotBlank()) {
+                    InfoCard("Note", palette) {
+                        InfoRow("Instructions", value(Deliveries.note), palette, Icons.Filled.Info)
+                    }
+                }
+
+                // Read-only map preview + open-in-external-app actions.
                 LocationSection(
                     latitude = entity.getOptionalValue(Deliveries.latitude)?.toString()?.toDoubleOrNull(),
                     longitude = entity.getOptionalValue(Deliveries.longitude)?.toString()?.toDoubleOrNull(),
                     editable = false
                 )
+
+                InfoCard("Reference", palette) {
+                    InfoRow("ID", value(Deliveries.id), palette)
+                }
+
+                Spacer(Modifier.height(8.dp))
             }
         }
     }
-}
-
-@Composable
-private fun detailCell(key: String, value: String?) {
-    FioriKeyValueCell(
-        content = FioriKeyValueCellContent(
-            key = key,
-            value = value ?: ""
-        )
-    )
 }

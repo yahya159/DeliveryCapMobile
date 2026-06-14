@@ -1,6 +1,9 @@
 package com.company.mysapbtpsdkproject.ui.odata.screens.deliveries
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -58,6 +61,7 @@ val DeliveriesEntitiesScreen:
     val entities = viewModel.pagingDataState.value.collectAsLazyPagingItems()
     val uiState by viewModel.odataUIState.collectAsState()
     val context = LocalContext.current
+    val palette = rememberDeliveryPalette()
 
     val listState: LazyListState = rememberLazyListState()
 
@@ -169,84 +173,26 @@ val DeliveriesEntitiesScreen:
         if (entities.loadState.refresh == LoadState.Loading) {
             LoadingItem()
         } else {
-            LazyColumn(state = listState) {
+            LazyColumn(
+                state = listState,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(palette.screenBg),
+                contentPadding = PaddingValues(vertical = 8.dp)
+            ) {
                 items(
                     count = entities.itemCount,
                 ) { index ->
                     val entity = entities[index] ?: return@items
                     val selected = uiState.selectedItems.contains(entity)
-                    val avatar = FioriAvatarConstruct(
-                        hasBadge = false,
-                        type = FioriAvatarType.SINGLE,
-                        avatarList = listOf(
-                            if (!selected) {
-                                if (EntityMediaResource.hasMediaResources(entity.entityType)) {
-                                        when (val media =
-                                            loadMedia(entity, viewModel).value) {
-                                            is ResultOf.Success -> FioriAvatarData(
-                                                FioriImage(media.bitmap),
-                                                shape = FioriAvatarShape.ROUNDEDCORNER
-                                            )
-                                            is ResultOf.Loading -> FioriAvatarData(
-                                                FioriImage(
-                                                    ResourcesCompat.getDrawable(
-                                                        context.resources,
-                                                        R.drawable.ic_downloading,
-                                                        context.theme
-                                                    )!!.toBitmap()
-                                                ),
-                                                shape = FioriAvatarShape.ROUNDEDCORNER
-                                            )
-                                            else -> FioriAvatarData(
-                                                text = viewModel.getAvatarText(entity).uppercase(),
-                                                textColor = MaterialTheme.fioriHorizonAttributes.SapFioriColorBaseText
-                                            )
-                                        }
-                                } else FioriAvatarData(
-                                    text = viewModel.getAvatarText(entity).uppercase(),
-                                    textColor = MaterialTheme.fioriHorizonAttributes.SapFioriColorBaseText
-                                )
-                            } else FioriAvatarData(
-                                FioriImage(resId = R.drawable.ic_sap_icon_done),
-                                color = MaterialTheme.fioriHorizonAttributes.SapFioriColorHeaderCaption,
-                                size = 40.dp,
-                            )
-                        ),
-                        size = 40.dp,
-                        shape = FioriAvatarShape.CIRCLE,
-//                      backgroundColor = MaterialTheme.fioriHorizonAttributes.SapFioriColorS6
-                    )
-                    val stateIcon = getEntityStateIcon(entity)
-                    val objectCellData = FioriObjectCellData.Builder().apply {
-                        setHeadline(viewModel.getEntityTitle(entity))
-                        setIconStack(listOf(
-                            IconStackElement(
-                                FioriIcon(
-                                    resId = stateIcon.icon,
-                                    contentDescription = stringResource(id = stateIcon.desc),
-                                    tint = Color.Unspecified
-                                )
-                            ),
-                            IconStackElement(
-                                FioriIcon(
-                                    resId = com.sap.cloud.mobile.fiori.compose.R.drawable.avatar_badge,
-                                    contentDescription = stringResource(id = stateIcon.desc),
-                                    tint = MaterialTheme.fioriHorizonAttributes.SapFioriColorSectionDivider
-                                )
-                            )
-                        ))
-                        setSubheadline(entity.getOptionalValue(Deliveries.note)?.toString() ?: "")
-                        setAvatar(avatar)
-                    }.build()
-                    objectCellData.setDisplayReadIndicator(false)
-
-                    FioriObjectCell(
-                        cellData = objectCellData,
-                        colors = FioriObjectCellDefaults.colors(),
-                        textStyles = FioriObjectCellDefaults.textStyles(),
-                        styles = FioriObjectCellDefaults.styles(iconStackSize = 10.dp),
+                    DeliveryListCard(
+                        name = entity.getOptionalValue(Deliveries.customerName)?.toString() ?: "",
+                        note = entity.getOptionalValue(Deliveries.note)?.toString() ?: "",
+                        status = entity.getOptionalValue(Deliveries.status)?.toString(),
+                        selected = selected,
+                        palette = palette,
                         onClick = { onClickChange(entity) },
-                        onLongPress = { viewModel.onSelectAction(entity) }
+                        onLongClick = { viewModel.onSelectAction(entity) }
                     )
                 }
             }
