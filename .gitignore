@@ -1,2 +1,31 @@
-/gen
-/node_modules
+# Dependencies
+node_modules/
+
+# CAP generated output
+gen/
+
+# Local databases
+*.sqlite
+*.sqlite-*
+
+# Build and deployment artifacts
+mta_archives/
+*.mtar
+*.tar
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,6 @@
+<resources  xmlns:tools="http://schemas.android.com/tools"
+             tools:ignore="MissingTranslation" >
+    <string name="application_name">MySAPBTPSDKProject</string>
+    <string name="eset_deliveries">Deliveries</string>
+    <string name="eset_deliveries_single">Deliveries</string>
+</resources>

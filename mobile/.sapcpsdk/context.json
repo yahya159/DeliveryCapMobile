@@ -1,0 +1,16 @@
+{
+  "projectInfo": {
+    "projectName": "MySAPBTPSDKProject",
+    "createdDate": "Sunday, June 14, 2026 at 4:35:41 PM",
+    "regenerateProxyClassDate": ""
+  },
+  "cloudApplication": {
+    "cloudApplicationId": "MobileApp",
+    "destinations": [
+      {
+        "id": "MobileApp"
+      }
+    ]
+  },
+  "msServerConfigurationName": "MobileAPP"
+}

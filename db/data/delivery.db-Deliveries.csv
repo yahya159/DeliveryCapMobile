@@ -1,6 +1,6 @@
 ID;orderNo;customerName;customerPhone;deliveryAddress;status;driverEmail;note
-1001;ORD-1001;Sarah Johnson;+1-202-555-0143;742 Evergreen Terrace, Springfield, IL 62704;DELIVERED;driver.mike@example.com;Left at front door
-1002;ORD-1002;Ahmed Haytam;+212-661-234567;12 Rue Hassan II, Casablanca 20000;IN_TRANSIT;driver.youssef@example.com;Call on arrival
-1003;ORD-1003;Maria Garcia;+34-612-345-678;Calle Gran Via 28, Madrid 28013;CREATED;;Awaiting driver assignment
-1004;ORD-1004;Liam Smith;+44-7700-900123;221B Baker Street, London NW1 6XE;OUT_FOR_DELIVERY;driver.john@example.com;Fragile - handle with care
-1005;ORD-1005;Yuki Tanaka;+81-90-1234-5678;2-1-1 Shibuya, Tokyo 150-0002;DELIVERED;driver.kenji@example.com;Signed by neighbor
+2f8c86e6-48f1-4af0-bf7a-8d33ac2fd101;ORD-1001;Sarah Johnson;+1-202-555-0143;742 Evergreen Terrace, Springfield, IL 62704;DELIVERED;driver.mike@example.com;Left at front door
+41547a0d-f850-4aa7-81cc-d714bc0d7102;ORD-1002;Ahmed Haytam;+212-661-234567;12 Rue Hassan II, Casablanca 20000;IN_PROGRESS;driver.youssef@example.com;Call on arrival
+b3d5957d-7427-4907-a277-2f46ae24f103;ORD-1003;Maria Garcia;+34-612-345-678;Calle Gran Via 28, Madrid 28013;CREATED;;Awaiting driver assignment
+f8b14a76-a56c-45af-82cf-d5c23ee3f104;ORD-1004;Liam Smith;+44-7700-900123;221B Baker Street, London NW1 6XE;IN_PROGRESS;driver.john@example.com;Fragile - handle with care
+e4cb89fd-79fe-4898-a216-a138f65ef105;ORD-1005;Yuki Tanaka;+81-90-1234-5678;2-1-1 Shibuya, Tokyo 150-0002;DELIVERED;driver.kenji@example.com;Signed by neighbor

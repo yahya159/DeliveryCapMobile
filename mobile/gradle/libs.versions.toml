@@ -1,0 +1,94 @@
+[versions]
+kotlin = "2.3.20"
+agp = "9.0.0" # Android Gradle Plugin version
+work = "2.11.2"
+guavaAndroid = "33.6.0-android"
+compose = "1.10.6"
+sapSdkVersion = "26.4.3"
+ksp = "2.3.6"
+coreKtx = "1.18.0"
+coreSplashScreen = "1.2.0"
+materialIconsCore = "1.7.8"
+composeMaterial3 = "1.4.0"
+navigationCompose = "2.9.7"
+activityCompose = "1.13.0"
+lifecycle = "2.10.0"
+datastorePreferences = "1.2.1"
+securityCrypto = "1.1.0"
+paging = "3.4.2"
+kotlinxCoroutines = "1.10.2"
+kotlinxSerializationJson = "1.11.0"
+zip4j = "2.11.6"
+junit = "4.13.2"
+espressoCore = "3.7.0"
+androidTestRunner = "1.7.0"
+androidTestRules = "1.7.0"
+androidTestExtJunit = "1.3.0"
+espressoDoppio = "1.0.0"
+uiAutomator = "2.3.0"
+testOrchestrator = "1.6.1"
+google-services = "4.4.4" # Google Services plugin for Firebase
+
+[libraries]
+# From build.gradle (originally in ext)
+work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
+guava-android = { group = "com.google.guava", name = "guava", version.ref = "guavaAndroid" }
+
+# From app/build.gradle
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashScreen" }
+androidx-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "materialIconsCore" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "composeMaterial3" }
+compose-material3-windowsizeclass = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "composeMaterial3" }
+compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose" }
+compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "compose" }
+compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "compose" }
+navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
+datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastorePreferences" }
+security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
+paging-common-ktx = { group = "androidx.paging", name = "paging-common-ktx", version.ref = "paging" }
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+zip4j = { group = "net.lingala.zip4j", name = "zip4j", version.ref = "zip4j" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+
+# SAP SDK Dependencies (using placeholder for version)sap-cloud-odata
+sap-cloud-foundation = { group = "com.sap.cloud.android", name = "foundation", version.ref = "sapSdkVersion" }
+sap-cloud-foundation-app-security = { group = "com.sap.cloud.android", name = "foundation-app-security", version.ref = "sapSdkVersion" }
+sap-cloud-onboarding-compose = { group = "com.sap.cloud.android", name = "onboarding-compose", version.ref = "sapSdkVersion" }
+sap-cloud-flows-compose = { group = "com.sap.cloud.android", name = "flows-compose", version.ref = "sapSdkVersion" }
+sap-cloud-fiori-composable-theme = { group = "com.sap.cloud.android", name = "fiori-composable-theme", version.ref = "sapSdkVersion" }
+sap-cloud-fiori-compose-ui = { group = "com.sap.cloud.android", name = "fiori-compose-ui", version.ref = "sapSdkVersion" }
+sap-cloud-permission-request-tracker = { group = "com.sap.cloud.android", name = "permission-request-tracker", version.ref = "sapSdkVersion" }
+sap-cloud-odata = { group = "com.sap.cloud.android", name = "odata", version.ref = "sapSdkVersion" }
+sap-cloud-offline-odata = { group = "com.sap.cloud.android", name = "offline-odata", version.ref = "sapSdkVersion" }
+
+# AndroidTest dependencies
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidTestRunner" }
+androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidTestRules" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidTestExtJunit" }
+espressodoppio = { group = "com.pgs-soft", name = "espressodoppio", version.ref = "espressoDoppio" }
+uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiAutomator" }
+androidx-test-orchestrator = { group = "androidx.test", name = "orchestrator", version.ref = "testOrchestrator" }
+
+# Kotlin stdlib and reflect (versions will use 'kotlin' version ref)
+kotlin-stdlib-jdk7 = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk7", version.ref = "kotlin" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+
+[plugins]
+# These are for use in the `plugins {}` block (typically in settings.gradle.kts or module build.gradle.kts)
+# For buildscript classpath, we refer to the artifacts defined in [libraries]
+android-application = { id = "com.android.application", version.ref = "agp" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+sap-odata-android = { id = "com.sap.odata.android", version.ref = "sapSdkVersion" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }

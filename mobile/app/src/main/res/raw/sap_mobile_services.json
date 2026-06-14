@@ -1,0 +1,18 @@
+{
+  "__comment": "When modifying this file, you need to reset or reinstall all current client installations",
+  "auth": [{
+      "type": "oauth2",
+      "config": {
+        "oauth2.clients": [
+
+          { "clientID": "8e37dbf3-c7eb-4384-ba6a-1773a1b49362", "redirectURL": "https://49386377trial-dev-mobileapp.cfapps.us10-001.hana.ondemand.com", "grantType": "authorization_code" }
+        ],
+        "oauth2.tokenEndpoint": "https://49386377trial-dev-mobileapp.cfapps.us10-001.hana.ondemand.com/oauth2/api/v1/token",
+        "oauth2.authorizationEndpoint": "https://49386377trial-dev-mobileapp.cfapps.us10-001.hana.ondemand.com/oauth2/api/v1/authorize"
+      },
+      "requireOtp": false
+    }],
+  "ServiceUrl" : "https://49386377trial-dev-mobileapp.cfapps.us10-001.hana.ondemand.com/",
+  "appID": "MobileApp",
+  "multiUser": false
+}
