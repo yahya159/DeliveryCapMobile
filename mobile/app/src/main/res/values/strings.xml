@@ -1,6 +1,18 @@
 <resources  xmlns:tools="http://schemas.android.com/tools"
              tools:ignore="MissingTranslation" >
-    <string name="application_name">MySAPBTPSDKProject</string>
+    <string name="application_name">Deliveries</string>
     <string name="eset_deliveries">Deliveries</string>
     <string name="eset_deliveries_single">Deliveries</string>
+
+    <!-- Location capture feature -->
+    <string name="location_section_title">Delivery location</string>
+    <string name="add_location">Add current location</string>
+    <string name="retake_location">Retake</string>
+    <string name="delete_location">Delete</string>
+    <string name="open_google_maps">Google Maps</string>
+    <string name="open_waze">Waze</string>
+    <string name="no_location_set">No location captured yet</string>
+    <string name="location_permission_required">Location permission is required to capture the delivery location.</string>
+    <string name="capturing_location">Getting current location…</string>
+    <string name="location_coordinates">Lat %1$.6f, Lng %2$.6f</string>
 </resources>

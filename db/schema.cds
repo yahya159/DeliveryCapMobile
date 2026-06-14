@@ -10,4 +10,6 @@ entity Deliveries : cuid, managed {
   status           : String(30) default 'CREATED';
   driverEmail      : String(255);
   note             : String(500);
+  latitude         : Double;
+  longitude        : Double;
 }

@@ -14,7 +14,7 @@ enum class EntityMetaData(
 ) {
     Deliveries(
         EntityTypes.deliveries,
-        com.sap.cloud.android.odata.entitycontainer.Deliveries.createdAt,
+        com.sap.cloud.android.odata.entitycontainer.Deliveries.customerName,
         EntityContainerMetadata.EntitySets.deliveries,
         ),
 }

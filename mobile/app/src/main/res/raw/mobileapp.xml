@@ -38,6 +38,8 @@
                 <Property Name="status" Type="Edm.String" MaxLength="30" DefaultValue="CREATED"/>
                 <Property Name="driverEmail" Type="Edm.String" MaxLength="255"/>
                 <Property Name="note" Type="Edm.String" MaxLength="500"/>
+                <Property Name="latitude" Type="Edm.Double"/>
+                <Property Name="longitude" Type="Edm.Double"/>
             </EntityType>
             <Annotations Target="DeliveryService.Deliveries/ID">
                 <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>

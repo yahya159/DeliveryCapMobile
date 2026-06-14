@@ -61,6 +61,16 @@ class DeliveriesODataViewModel(
             property = Deliveries.note,
             value = masterEntity.getOptionalValue(Deliveries.note)?.toString() ?: "",
         ))
+        // latitude/longitude are not rendered as text fields; they are driven by the
+        // LocationSection on the edit screen but kept here so they are persisted on save.
+        list.add(FieldUIState(
+            property = Deliveries.latitude,
+            value = masterEntity.getOptionalValue(Deliveries.latitude)?.toString() ?: "",
+        ))
+        list.add(FieldUIState(
+            property = Deliveries.longitude,
+            value = masterEntity.getOptionalValue(Deliveries.longitude)?.toString() ?: "",
+        ))
 
         return list.map { validateFieldState(it, it.value) }
     }

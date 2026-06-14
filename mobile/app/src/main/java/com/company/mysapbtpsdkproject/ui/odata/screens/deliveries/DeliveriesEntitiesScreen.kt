@@ -32,6 +32,7 @@ import com.sap.cloud.mobile.fiori.compose.objectcell.ui.FioriObjectCell
 import com.sap.cloud.mobile.fiori.compose.objectcell.ui.FioriObjectCellDefaults
 import com.sap.cloud.mobile.fiori.compose.theme.fioriHorizonAttributes
 import com.sap.cloud.mobile.kotlin.odata.EntityValue
+import com.sap.cloud.android.odata.entitycontainer.Deliveries
 import com.sap.cloud.mobile.onboarding.compose.screens.LoadingItem
 import com.company.mysapbtpsdkproject.ui.AlertDialogComponent
 import com.company.mysapbtpsdkproject.ui.odata.screens.*
@@ -234,8 +235,7 @@ val DeliveriesEntitiesScreen:
                                 )
                             )
                         ))
-                        setSubheadline("Subtitle goes here")
-                        setFootnote("caption display")
+                        setSubheadline(entity.getOptionalValue(Deliveries.note)?.toString() ?: "")
                         setAvatar(avatar)
                     }.build()
                     objectCellData.setDisplayReadIndicator(false)

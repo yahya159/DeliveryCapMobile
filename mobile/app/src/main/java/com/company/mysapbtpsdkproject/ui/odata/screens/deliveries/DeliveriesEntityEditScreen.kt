@@ -211,6 +211,27 @@ val DeliveriesEntityEditScreen: @Composable (
                 }
             }
 
+            // Location: hidden behind a button until the user captures a GPS fix.
+            item {
+                val latIndex = fieldStates.indexOfFirst { it.property.name == "latitude" }
+                val lngIndex = fieldStates.indexOfFirst { it.property.name == "longitude" }
+                if (latIndex >= 0 && lngIndex >= 0) {
+                    LocationSection(
+                        latitude = fieldStates[latIndex].value.toDoubleOrNull(),
+                        longitude = fieldStates[lngIndex].value.toDoubleOrNull(),
+                        editable = true,
+                        onLocationCaptured = { lat, lng ->
+                            viewModel.updateFieldState(latIndex, lat.toString())
+                            viewModel.updateFieldState(lngIndex, lng.toString())
+                        },
+                        onClear = {
+                            viewModel.updateFieldState(latIndex, "")
+                            viewModel.updateFieldState(lngIndex, "")
+                        }
+                    )
+                }
+            }
+
         }
     }
 }

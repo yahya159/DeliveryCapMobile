@@ -1,8 +1,20 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.ksp)
         alias(libs.plugins.sap.odata.android)
     alias(libs.plugins.kotlin.compose)
+}
+
+// Read the Google Maps API key from local.properties (kept out of version control).
+val mapsApiKey: String = run {
+    val props = Properties()
+    val localPropsFile = rootProject.file("local.properties")
+    if (localPropsFile.exists()) {
+        localPropsFile.inputStream().use { props.load(it) }
+    }
+    props.getProperty("MAPS_API_KEY", "")
 }
 
 configure<com.sap.odata.android.gradle.ODataPluginExtension> {
@@ -32,6 +44,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
     }
     buildTypes {
         release {
@@ -143,6 +156,11 @@ dependencies {
             type = "aar"
         }
     }
+
+    // Google Maps + location services for the delivery location feature
+    implementation(libs.maps.compose)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
 
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.androidx.test.runner)

@@ -28,6 +28,9 @@ espressoDoppio = "1.0.0"
 uiAutomator = "2.3.0"
 testOrchestrator = "1.6.1"
 google-services = "4.4.4" # Google Services plugin for Firebase
+mapsCompose = "6.4.1"
+playServicesMaps = "19.0.0"
+playServicesLocation = "21.3.0"
 
 [libraries]
 # From build.gradle (originally in ext)
@@ -70,6 +73,11 @@ sap-cloud-fiori-compose-ui = { group = "com.sap.cloud.android", name = "fiori-co
 sap-cloud-permission-request-tracker = { group = "com.sap.cloud.android", name = "permission-request-tracker", version.ref = "sapSdkVersion" }
 sap-cloud-odata = { group = "com.sap.cloud.android", name = "odata", version.ref = "sapSdkVersion" }
 sap-cloud-offline-odata = { group = "com.sap.cloud.android", name = "offline-odata", version.ref = "sapSdkVersion" }
+
+# Google Maps + location for the delivery location feature
+maps-compose = { group = "com.google.maps.android", name = "maps-compose", version.ref = "mapsCompose" }
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 
 # AndroidTest dependencies
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

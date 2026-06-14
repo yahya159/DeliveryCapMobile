@@ -1,14 +1,15 @@
 package com.company.mysapbtpsdkproject.ui.odata.screens.deliveries
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -18,14 +19,10 @@ import com.company.mysapbtpsdkproject.ui.odata.screens.*
 import com.company.mysapbtpsdkproject.ui.odata.viewmodel.*
 import com.sap.cloud.mobile.fiori.compose.keyvaluecell.model.FioriKeyValueCellContent
 import com.sap.cloud.mobile.fiori.compose.keyvaluecell.ui.FioriKeyValueCell
-import com.sap.cloud.mobile.fiori.compose.objectheader.model.*
-import com.sap.cloud.mobile.fiori.compose.objectheader.ui.FioriObjectHeader
 import com.sap.cloud.mobile.kotlin.odata.EntityValue
 import com.sap.cloud.mobile.kotlin.odata.Property
 import com.company.mysapbtpsdkproject.ui.odata.screens.OperationScreen
 import com.company.mysapbtpsdkproject.ui.odata.screens.OperationScreenSettings
-import com.company.mysapbtpsdkproject.ui.odata.screens.defaultObjectHeaderData
-import com.sap.cloud.mobile.fiori.compose.theme.fioriHorizonAttributes
 import com.sap.cloud.android.odata.entitycontainer.Deliveries
 
 val DeliveriesEntityDetailScreen: @Composable (
@@ -36,7 +33,6 @@ val DeliveriesEntityDetailScreen: @Composable (
 ) -> Unit = { _, navigateUp, odataViewModel, isExpandedScreen ->
     val viewModel = odataViewModel as EntityViewModel
     val uiState by viewModel.odataUIState.collectAsState()
-    val imageByteArray by viewModel.loadMasterEntityMedia().collectAsState(initial = null)
 
     val deleteConfirm = remember {
         mutableStateOf(false)
@@ -66,112 +62,55 @@ val DeliveriesEntityDetailScreen: @Composable (
         modifier = Modifier,
         viewModel = viewModel
     ) {
-        Column {
-            val entity = uiState.masterEntity
-            if (entity != null) {
-                FioriObjectHeader(
-                    modifier = Modifier.fillMaxWidth(),
-                    primaryPage = defaultObjectHeaderData(
-                        title = viewModel.getEntityTitle(entity),
-                        imageByteArray = imageByteArray,
-                        imageChars = viewModel.getAvatarText(entity)
-                    ),
-                    statusLayout = FioriObjectHeaderStatusLayout.Inline
+        val entity = uiState.masterEntity
+        if (entity != null) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+            ) {
+                // Clean header: customer name + status, replacing the default object header.
+                Text(
+                    text = entity.getOptionalValue(Deliveries.customerName)?.toString() ?: "",
+                    style = MaterialTheme.typography.headlineSmall
                 )
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 12.dp, end = 12.dp)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    FioriKeyValueCell(
-                        content = FioriKeyValueCellContent(
-                                key = Deliveries.id.name,
-                                value = entity.getOptionalValue(Deliveries.id)?.toString() ?: ""
-                            )
-                        )
-
-                    FioriKeyValueCell(
-                        content = FioriKeyValueCellContent(
-                                key = Deliveries.createdAt.name,
-                                value = entity.getOptionalValue(Deliveries.createdAt)?.toString() ?: ""
-                            )
-                        )
-
-                    FioriKeyValueCell(
-                        content = FioriKeyValueCellContent(
-                                key = Deliveries.createdBy.name,
-                                value = entity.getOptionalValue(Deliveries.createdBy)?.toString() ?: ""
-                            )
-                        )
-
-                    FioriKeyValueCell(
-                        content = FioriKeyValueCellContent(
-                                key = Deliveries.modifiedAt.name,
-                                value = entity.getOptionalValue(Deliveries.modifiedAt)?.toString() ?: ""
-                            )
-                        )
-
-                    FioriKeyValueCell(
-                        content = FioriKeyValueCellContent(
-                                key = Deliveries.modifiedBy.name,
-                                value = entity.getOptionalValue(Deliveries.modifiedBy)?.toString() ?: ""
-                            )
-                        )
-
-                    FioriKeyValueCell(
-                        content = FioriKeyValueCellContent(
-                                key = Deliveries.orderNo.name,
-                                value = entity.getOptionalValue(Deliveries.orderNo)?.toString() ?: ""
-                            )
-                        )
-
-                    FioriKeyValueCell(
-                        content = FioriKeyValueCellContent(
-                                key = Deliveries.customerName.name,
-                                value = entity.getOptionalValue(Deliveries.customerName)?.toString() ?: ""
-                            )
-                        )
-
-                    FioriKeyValueCell(
-                        content = FioriKeyValueCellContent(
-                                key = Deliveries.customerPhone.name,
-                                value = entity.getOptionalValue(Deliveries.customerPhone)?.toString() ?: ""
-                            )
-                        )
-
-                    FioriKeyValueCell(
-                        content = FioriKeyValueCellContent(
-                                key = Deliveries.deliveryAddress.name,
-                                value = entity.getOptionalValue(Deliveries.deliveryAddress)?.toString() ?: ""
-                            )
-                        )
-
-                    FioriKeyValueCell(
-                        content = FioriKeyValueCellContent(
-                                key = Deliveries.status.name,
-                                value = entity.getOptionalValue(Deliveries.status)?.toString() ?: ""
-                            )
-                        )
-
-                    FioriKeyValueCell(
-                        content = FioriKeyValueCellContent(
-                                key = Deliveries.driverEmail.name,
-                                value = entity.getOptionalValue(Deliveries.driverEmail)?.toString() ?: ""
-                            )
-                        )
-
-                    FioriKeyValueCell(
-                        content = FioriKeyValueCellContent(
-                                key = Deliveries.note.name,
-                                value = entity.getOptionalValue(Deliveries.note)?.toString() ?: ""
-                            )
-                        )
-
+                val status = entity.getOptionalValue(Deliveries.status)?.toString()
+                if (!status.isNullOrEmpty()) {
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = status,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 }
+
+                Spacer(Modifier.height(12.dp))
+
+                detailCell(Deliveries.orderNo.name, entity.getOptionalValue(Deliveries.orderNo)?.toString())
+                detailCell(Deliveries.customerPhone.name, entity.getOptionalValue(Deliveries.customerPhone)?.toString())
+                detailCell(Deliveries.deliveryAddress.name, entity.getOptionalValue(Deliveries.deliveryAddress)?.toString())
+                detailCell(Deliveries.driverEmail.name, entity.getOptionalValue(Deliveries.driverEmail)?.toString())
+                detailCell(Deliveries.note.name, entity.getOptionalValue(Deliveries.note)?.toString())
+                detailCell(Deliveries.id.name, entity.getOptionalValue(Deliveries.id)?.toString())
+
+                // Read-only location preview + open-in-external-app actions.
+                LocationSection(
+                    latitude = entity.getOptionalValue(Deliveries.latitude)?.toString()?.toDoubleOrNull(),
+                    longitude = entity.getOptionalValue(Deliveries.longitude)?.toString()?.toDoubleOrNull(),
+                    editable = false
+                )
             }
         }
     }
 }
 
+@Composable
+private fun detailCell(key: String, value: String?) {
+    FioriKeyValueCell(
+        content = FioriKeyValueCellContent(
+            key = key,
+            value = value ?: ""
+        )
+    )
+}
