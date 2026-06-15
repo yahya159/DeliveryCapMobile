@@ -15,4 +15,8 @@
     <string name="location_permission_required">Location permission is required to capture the delivery location.</string>
     <string name="capturing_location">Getting current location…</string>
     <string name="location_coordinates">Lat %1$.6f, Lng %2$.6f</string>
+    <string name="maps_api_key_missing">Google Maps preview is unavailable because MAPS_API_KEY is not configured.</string>
+    <string name="no_map_application">No map application is available on this device.</string>
+    <string name="deliveries_load_failed">Could not load deliveries.</string>
+    <string name="retry">Retry</string>
 </resources>

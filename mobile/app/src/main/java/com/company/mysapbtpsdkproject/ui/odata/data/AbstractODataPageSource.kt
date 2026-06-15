@@ -21,23 +21,28 @@ abstract class AbstractODataPageSource<T : StructureBase>(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
-        val nextPageNo = params.key ?: 0
-        val items = mutableListOf<T>()
-        loadItems(pageSize, nextPageNo).collect {
-            items.addAll(it)
-        }
-        LOGGER.debug("load with params {}", params)
-        return LoadResult.Page(
-            data = items,
-            prevKey = if (nextPageNo <= 0) null else nextPageNo - 1,
-            nextKey = if (items.size < pageSize) null else {
-                val pages = items.size / pageSize
-                val remainder = items.size % pageSize
-                if (remainder > 0) null else {
-                    nextPageNo + pages
-                }
+        return try {
+            val nextPageNo = params.key ?: 0
+            val items = mutableListOf<T>()
+            loadItems(pageSize, nextPageNo).collect {
+                items.addAll(it)
             }
-        )
+            LOGGER.debug("load with params {}", params)
+            LoadResult.Page(
+                data = items,
+                prevKey = if (nextPageNo <= 0) null else nextPageNo - 1,
+                nextKey = if (items.size < pageSize) null else {
+                    val pages = items.size / pageSize
+                    val remainder = items.size % pageSize
+                    if (remainder > 0) null else {
+                        nextPageNo + pages
+                    }
+                }
+            )
+        } catch (error: Exception) {
+            LOGGER.error("Failed to load OData page", error)
+            LoadResult.Error(error)
+        }
     }
 
     protected abstract suspend fun loadItems(pageSize: Int, page: Int): Flow<List<T>>
@@ -47,4 +52,3 @@ abstract class AbstractODataPageSource<T : StructureBase>(
     }
 
 }
-

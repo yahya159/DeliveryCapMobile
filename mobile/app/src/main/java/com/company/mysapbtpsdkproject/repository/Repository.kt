@@ -42,13 +42,8 @@ class Repository(
                         dataQuery.orderBy(it, SortOrder.ASCENDING)
                     }
                 }
-                try {
-                    val result =  entityContainer.executeQuery(dataQuery, HttpHeaders.empty).getEntityList().toList()
-                    emit(result)
-                } catch (error: Exception) {
-                    LOGGER.error("Error encountered during fetch of Category collection", error)
-                    emit(listOf())
-                }
+                val result = entityContainer.executeQuery(dataQuery, HttpHeaders.empty).getEntityList().toList()
+                emit(result)
             }.flowOn(Dispatchers.IO)
         } ?: throw IllegalArgumentException("Read data against containment property entity directly!")
     }
@@ -76,18 +71,14 @@ class Repository(
         }
 
         val entities = mutableListOf<EntityValue>()
-        try {
-            entityContainer.loadProperty(navigationProperty, parent, dataQuery, HttpHeaders.empty)
-            val relatedData = parent.getOptionalValue(navigationProperty)
+        entityContainer.loadProperty(navigationProperty, parent, dataQuery, HttpHeaders.empty)
+        val relatedData = parent.getOptionalValue(navigationProperty)
 
-            when (navigationProperty.dataType.code) {
-                DataType.ENTITY_VALUE_LIST -> entities.addAll((relatedData as EntityValueList?)!!.toList())
-                DataType.ENTITY_VALUE -> if (relatedData != null) {
-                    entities.add(relatedData as EntityValue)
-                }
+        when (navigationProperty.dataType.code) {
+            DataType.ENTITY_VALUE_LIST -> entities.addAll((relatedData as EntityValueList?)!!.toList())
+            DataType.ENTITY_VALUE -> if (relatedData != null) {
+                entities.add(relatedData as EntityValue)
             }
-        } catch (error: Exception) {
-            LOGGER.error("Error encountered during fetch of Category collection", error)
         }
 
         emit(entities)

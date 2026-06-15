@@ -52,7 +52,7 @@ class DeliveriesODataViewModel(
         ))
         list.add(FieldUIState(
             property = Deliveries.status,
-            value = masterEntity.getOptionalValue(Deliveries.status)?.toString() ?: "",
+            value = masterEntity.getOptionalValue(Deliveries.status)?.toString() ?: "CREATED",
         ))
         list.add(FieldUIState(
             property = Deliveries.driverEmail,

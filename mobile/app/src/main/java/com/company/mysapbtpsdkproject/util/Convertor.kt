@@ -27,6 +27,8 @@ object Converter {
             } else {
                 if (!property.isNullable) {
                     convertErrors.add(ConvertResult.ConvertError(IllegalArgumentException("Mandatory field empty")))
+                } else {
+                    existingEntity.setDataValue(property, null)
                 }
             }
 

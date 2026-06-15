@@ -31,11 +31,11 @@
                 <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
                 <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
                 <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
-                <Property Name="orderNo" Type="Edm.String" MaxLength="50"/>
-                <Property Name="customerName" Type="Edm.String" MaxLength="120"/>
+                <Property Name="orderNo" Type="Edm.String" Nullable="false" MaxLength="50"/>
+                <Property Name="customerName" Type="Edm.String" Nullable="false" MaxLength="120"/>
                 <Property Name="customerPhone" Type="Edm.String" MaxLength="40"/>
-                <Property Name="deliveryAddress" Type="Edm.String" MaxLength="500"/>
-                <Property Name="status" Type="Edm.String" MaxLength="30" DefaultValue="CREATED"/>
+                <Property Name="deliveryAddress" Type="Edm.String" Nullable="false" MaxLength="500"/>
+                <Property Name="status" Type="Edm.String" Nullable="false" MaxLength="30" DefaultValue="CREATED"/>
                 <Property Name="driverEmail" Type="Edm.String" MaxLength="255"/>
                 <Property Name="note" Type="Edm.String" MaxLength="500"/>
                 <Property Name="latitude" Type="Edm.Double"/>

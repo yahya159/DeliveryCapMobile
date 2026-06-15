@@ -8,7 +8,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.company.mysapbtpsdkproject.R
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
@@ -60,7 +62,7 @@ object LocationUtils {
                 Intent.ACTION_VIEW,
                 Uri.parse("https://www.google.com/maps/search/?api=1&query=$latitude,$longitude")
             )
-            context.startActivity(fallback)
+            startActivityOrToast(context, fallback)
         }
     }
 
@@ -70,12 +72,21 @@ object LocationUtils {
         try {
             context.startActivity(Intent(Intent.ACTION_VIEW, wazeUri))
         } catch (e: ActivityNotFoundException) {
-            context.startActivity(
+            startActivityOrToast(
+                context,
                 Intent(
                     Intent.ACTION_VIEW,
                     Uri.parse("https://waze.com/ul?ll=$latitude,$longitude&navigate=yes")
                 )
             )
+        }
+    }
+
+    private fun startActivityOrToast(context: Context, intent: Intent) {
+        try {
+            context.startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, context.getString(R.string.no_map_application), Toast.LENGTH_LONG).show()
         }
     }
 }

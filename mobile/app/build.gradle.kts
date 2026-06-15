@@ -14,7 +14,8 @@ val mapsApiKey: String = run {
     if (localPropsFile.exists()) {
         localPropsFile.inputStream().use { props.load(it) }
     }
-    props.getProperty("MAPS_API_KEY", "")
+    props.getProperty("MAPS_API_KEY")
+        ?: props.getProperty("GOOGLE_MAPS_API_KEY", "")
 }
 
 configure<com.sap.odata.android.gradle.ODataPluginExtension> {
@@ -45,6 +46,7 @@ android {
             useSupportLibrary = true
         }
         manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
+        buildConfigField("boolean", "MAPS_API_KEY_CONFIGURED", mapsApiKey.isNotBlank().toString())
     }
     buildTypes {
         release {

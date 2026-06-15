@@ -42,6 +42,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.company.mysapbtpsdkproject.BuildConfig
 import com.company.mysapbtpsdkproject.R
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -157,7 +158,7 @@ fun LocationSection(
                 }
 
                 hasLocation -> {
-                    val position = LatLng(latitude!!, longitude!!)
+                    val position = LatLng(latitude, longitude)
                     val cameraPositionState = rememberCameraPositionState {
                         this.position = CameraPosition.fromLatLngZoom(position, 15f)
                     }
@@ -169,23 +170,31 @@ fun LocationSection(
                         MarkerState(position = position)
                     }
 
-                    GoogleMap(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(180.dp)
-                            .clip(RoundedCornerShape(12.dp)),
-                        cameraPositionState = cameraPositionState,
-                        properties = MapProperties(mapType = MapType.NORMAL),
-                        uiSettings = MapUiSettings(
-                            zoomControlsEnabled = false,
-                            scrollGesturesEnabled = false,
-                            zoomGesturesEnabled = false,
-                            rotationGesturesEnabled = false,
-                            tiltGesturesEnabled = false,
-                            mapToolbarEnabled = false
+                    if (BuildConfig.MAPS_API_KEY_CONFIGURED) {
+                        GoogleMap(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(180.dp)
+                                .clip(RoundedCornerShape(12.dp)),
+                            cameraPositionState = cameraPositionState,
+                            properties = MapProperties(mapType = MapType.NORMAL),
+                            uiSettings = MapUiSettings(
+                                zoomControlsEnabled = false,
+                                scrollGesturesEnabled = false,
+                                zoomGesturesEnabled = false,
+                                rotationGesturesEnabled = false,
+                                tiltGesturesEnabled = false,
+                                mapToolbarEnabled = false
+                            )
+                        ) {
+                            Marker(state = markerState)
+                        }
+                    } else {
+                        Text(
+                            text = stringResource(id = R.string.maps_api_key_missing),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = palette.textSecondary
                         )
-                    ) {
-                        Marker(state = markerState)
                     }
 
                     Spacer(Modifier.height(8.dp))

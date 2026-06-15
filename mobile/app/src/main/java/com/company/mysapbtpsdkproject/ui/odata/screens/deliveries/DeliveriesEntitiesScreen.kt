@@ -2,15 +2,23 @@ package com.company.mysapbtpsdkproject.ui.odata.screens.deliveries
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -170,31 +178,55 @@ val DeliveriesEntitiesScreen:
         modifier = Modifier,
         viewModel = viewModel
     ) {
-        if (entities.loadState.refresh == LoadState.Loading) {
-            LoadingItem()
-        } else {
-            LazyColumn(
-                state = listState,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(palette.screenBg),
-                contentPadding = PaddingValues(vertical = 8.dp)
-            ) {
-                items(
-                    count = entities.itemCount,
-                ) { index ->
-                    val entity = entities[index] ?: return@items
-                    val selected = uiState.selectedItems.contains(entity)
-                    DeliveryListCard(
-                        name = entity.getOptionalValue(Deliveries.customerName)?.toString() ?: "",
-                        note = entity.getOptionalValue(Deliveries.note)?.toString() ?: "",
-                        status = entity.getOptionalValue(Deliveries.status)?.toString(),
-                        selected = selected,
-                        accentColor = deliverySyncColor(entity),
-                        palette = palette,
-                        onClick = { onClickChange(entity) },
-                        onLongClick = { viewModel.onSelectAction(entity) }
+        when (val refreshState = entities.loadState.refresh) {
+            LoadState.Loading -> LoadingItem()
+            is LoadState.Error -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(palette.screenBg)
+                        .padding(24.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.deliveries_load_failed),
+                        color = palette.textPrimary,
                     )
+                    refreshState.error.localizedMessage?.takeIf { it.isNotBlank() }?.also {
+                        Spacer(Modifier.height(8.dp))
+                        Text(text = it, color = palette.textSecondary)
+                    }
+                    Spacer(Modifier.height(16.dp))
+                    Button(onClick = { entities.retry() }) {
+                        Text(stringResource(id = R.string.retry))
+                    }
+                }
+            }
+            else -> {
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(palette.screenBg),
+                    contentPadding = PaddingValues(vertical = 8.dp)
+                ) {
+                    items(
+                        count = entities.itemCount,
+                    ) { index ->
+                        val entity = entities[index] ?: return@items
+                        val selected = uiState.selectedItems.contains(entity)
+                        DeliveryListCard(
+                            name = entity.getOptionalValue(Deliveries.customerName)?.toString() ?: "",
+                            note = entity.getOptionalValue(Deliveries.note)?.toString() ?: "",
+                            status = entity.getOptionalValue(Deliveries.status)?.toString(),
+                            selected = selected,
+                            accentColor = deliverySyncColor(entity),
+                            palette = palette,
+                            onClick = { onClickChange(entity) },
+                            onLongClick = { viewModel.onSelectAction(entity) }
+                        )
+                    }
                 }
             }
         }
