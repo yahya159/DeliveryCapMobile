@@ -25,13 +25,14 @@ class DeliveriesODataViewModel(
 ) {
     override fun populateFiledStates(masterEntity: StructureBase, isEdit: Boolean): List<FieldUIState> {
         val list = mutableListOf<FieldUIState>()
-        // add the non-computed properties to the list
-        // key properties are only shown in creation mode
+        // ID is the GUID key. Auto-generate it on create (CAP accepts a client-supplied UUID
+        // for a cuid key) and keep it out of the form so the user only fills the business fields.
         if (!isEdit) {
-        list.add(FieldUIState(
-            property = Deliveries.id,
-            value = masterEntity.getOptionalValue(Deliveries.id)?.toString() ?: "",
-        ))
+            val existingId = masterEntity.getOptionalValue(Deliveries.id)?.toString()
+            list.add(FieldUIState(
+                property = Deliveries.id,
+                value = if (existingId.isNullOrEmpty()) java.util.UUID.randomUUID().toString() else existingId,
+            ))
         }
         list.add(FieldUIState(
             property = Deliveries.orderNo,

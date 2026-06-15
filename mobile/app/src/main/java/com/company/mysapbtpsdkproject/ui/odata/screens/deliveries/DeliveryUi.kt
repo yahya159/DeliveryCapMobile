@@ -48,6 +48,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sap.cloud.mobile.kotlin.odata.EntityValue
 
 /* ----------------------------------------------------------------------------
  * Delivery design system — a lightweight, Grab-inspired green look that adapts
@@ -56,6 +57,22 @@ import androidx.compose.ui.unit.sp
 
 val DeliveryGreen = Color(0xFF00B14F)
 val DeliveryGreenDark = Color(0xFF007A37)
+val DeliverySyncOrange = Color(0xFFF59E0B)
+val DeliverySyncRed = Color(0xFFEF4444)
+
+/**
+ * Offline sync state of a delivery, expressed as the avatar accent color:
+ *  - orange = has unsynced local changes / pending upload (this SDK sets `isLocal` for both
+ *             offline updates and offline creates; `isUpdated` stays false, so `isLocal` is
+ *             the reliable "dirty" signal)
+ *  - green  = downloaded / clean (already synced) — rows return to green after a sync
+ *  - red    = the row is in an error state
+ */
+fun deliverySyncColor(entity: EntityValue): Color = when {
+    entity.inErrorState -> DeliverySyncRed
+    entity.isLocal -> DeliverySyncOrange
+    else -> DeliveryGreen
+}
 
 /** Theme-adaptive neutral colors so cards/text read well in both light and dark. */
 data class DeliveryPalette(
@@ -317,6 +334,7 @@ fun DeliveryListCard(
     note: String,
     status: String?,
     selected: Boolean,
+    accentColor: Color,
     palette: DeliveryPalette,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
@@ -337,7 +355,7 @@ fun DeliveryListCard(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .background(if (selected) DeliveryGreen else DeliveryGreen.copy(alpha = 0.15f)),
+                    .background(if (selected) accentColor else accentColor.copy(alpha = 0.18f)),
                 contentAlignment = Alignment.Center
             ) {
                 if (selected) {
@@ -345,7 +363,7 @@ fun DeliveryListCard(
                 } else {
                     Text(
                         text = name.firstOrNull()?.uppercase() ?: "?",
-                        color = DeliveryGreen,
+                        color = accentColor,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )

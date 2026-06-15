@@ -78,26 +78,8 @@ val DeliveriesEntityEditScreen: @Composable (
                 .fillMaxSize()
                 .padding(start = 12.dp, end = 12.dp)
         ) {
-            // add the non-computed properties to the list
-            // key properties are only shown in creation mode
-            if (isCreation) {
-            item {
-                val iDIndex = fieldStates.indexOfFirst { it.property.name == "ID" }
-                if (iDIndex >= 0) {
-                    val iDState = fieldStates[iDIndex]
-                    FioriSimpleTextField(
-                        value = iDState.value,
-                        onValueChange = { viewModel.updateFieldState(iDIndex, it) },
-                        content = FioriTextFieldContent(
-                            label = iDState.property.name,
-                            required = !iDState.property.isNullable,
-                            errorMessage = iDState.errorMessage
-                        ),
-                        isError = iDState.isError,
-                    )
-                }
-            }
-            }
+            // ID (GUID key) is auto-generated in the view model and intentionally hidden here,
+            // so the user only fills the business fields below.
             item {
                 val orderNoIndex = fieldStates.indexOfFirst { it.property.name == "orderNo" }
                 if (orderNoIndex >= 0) {

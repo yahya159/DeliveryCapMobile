@@ -190,6 +190,7 @@ val DeliveriesEntitiesScreen:
                         note = entity.getOptionalValue(Deliveries.note)?.toString() ?: "",
                         status = entity.getOptionalValue(Deliveries.status)?.toString(),
                         selected = selected,
+                        accentColor = deliverySyncColor(entity),
                         palette = palette,
                         onClick = { onClickChange(entity) },
                         onLongClick = { viewModel.onSelectAction(entity) }
